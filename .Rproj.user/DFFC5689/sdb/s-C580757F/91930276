@@ -1,0 +1,18 @@
+{
+    "contents" : "# using dplyr\n\nrm(list=ls())  # clean up work space\nsetwd(\"/Users/SongWang/Stat/Teaching/stat424/code/project1\")\n\n\nPlastic <- read.csv(\"Project 1 data.csv\")\n\nPlastic <- Plastic[-9,]\n\nrequire(dplyr)\nmean.temp = Plastic %>% \n  dplyr::group_by(Reactor) %>%\n  dplyr::summarise(mean(Temp))\n\nmean.temp\n\ncor(Plastic$Temp, Plastic$Conv)\ncorr.Reactor = Plastic %>%\n    dplyr::group_by(Reactor) %>%\n    dplyr::summarise(cor(Temp,Conv))\ncorr.Reactor\n",
+    "created" : 1454875339733.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2735331968",
+    "id" : "91930276",
+    "lastKnownWriteTime" : 1454880534,
+    "path" : "~/Stat/Teaching/stat424/code/project1/dplyr.R",
+    "project_path" : "project1/dplyr.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

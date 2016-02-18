@@ -1,0 +1,41 @@
+---
+title: "Stat424 2016 Spring"
+author: "Song Wang"
+date: "updated February 11, 2016"
+output: html_document
+---
+
+#### My Name is Song Wang, a fourth-year PhD student at Stat Dept. I am TA for stat 424 -- experiment design -- 2016 srping. This is the homepage for that course. Here I will post my handouts as well as R codes.
+
+#### Office hours :11am -12pm Mondays and 3-4pm Wednesdays.
+
+
+### Here are the handouts and codes:
+
+Discussion 1
+
+- [disc1 handout](A_Brief_Intro_to_R.html)
+ 
+- [dataset for disc1](mtcars.csv)
+
+Discussion 2 
+ 
+- [disc2 handout](disc2.pdf)
+- [code for disc2](Sol2.html)
+
+ Discussion 3 
+ 
+- [disc3 handout](disc3.pdf)
+- [code for disc3](disc3.R)
+- [code for project1](project1.R)
+
+Discussion 4
+ 
+- [disc4 handout](disc4.pdf)
+- [code for disc4](disc4.R): using **aov** to solve randomized block design block, and  a little bit about package *dplyr*.
+
+Discussion 5
+ 
+- [disc5 handout](disc5.pdf)
+- [code for disc5](disc5.R): more on *aov* and some visualization
+- [Some notes on RCBD](RCBD.pdf) some use materials on randomized block desgin.

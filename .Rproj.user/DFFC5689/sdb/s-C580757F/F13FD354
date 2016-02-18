@@ -1,0 +1,17 @@
+{
+    "contents" : "\nSong Wang’s Homepage\n---\n### I am now a fourth-year PhD student at Department of Statistics, University of Wisconsin - Madison.\n\n[](Resume_SongWang.pdf)\n\n \n\n#### I am  TA for stat424 -Experiemntal Designs- 2016 Spring, working with Donald Porter. I will post my handouts and code here.   [TA: Song Wang's page for stat424 2016 Spring](Stat424-s16.html)\n\n\n![alt text](scene.png)\n",
+    "created" : 1455769977655.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1409479625",
+    "id" : "F13FD354",
+    "lastKnownWriteTime" : 1455770526,
+    "path" : "~/Stat/Teaching/stat424/code/index.Rmd",
+    "project_path" : "index.Rmd",
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}

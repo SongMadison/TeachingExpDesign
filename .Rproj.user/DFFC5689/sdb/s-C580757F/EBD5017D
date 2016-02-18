@@ -1,0 +1,17 @@
+{
+    "contents" : "rm(list=ls())  # clean up work space\nsetwd(\"/Users/SongWang/Stat/Teaching/stat424/code/project1\")\n\nPlastic <- read.csv(\"Project 1 data.csv\")\n\n# question 1: delete one row: last number in my ID is 9\nPlastic <- Plastic[-9,]\n\n# question 2:\n#part a)\nPlastic_ReactorA <- Plastic[which(Plastic$Reactor=='A'),]\nPlastic_ReactorB <- Plastic[which(Plastic$Reactor=='B'),]\n\nmean(Plastic_ReactorA$Temp)\nmean(Plastic_ReactorB$Temp)\nmean(Plastic$Temp)\n\nmean(Plastic_ReactorA$Conv)\nmean(Plastic_ReactorB$Conv)\nmean(Plastic$Conv)\n\n#part b): correlation coefficient between temperature and conversion, overall and by reactor\ncor(Plastic$Temp,Plastic$Conv)\ncor(Plastic_ReactorA$Temp, Plastic_ReactorA$Conv)\ncor(Plastic_ReactorB$Temp, Plastic_ReactorB$Conv)\n\n# part c): Comparative histograms of temperature and conversion, by reactor\nlayout(matrix(c(1,2)))\nhist(Plastic_ReactorA$Temp)\nhist(Plastic_ReactorB$Temp)\nhist(Plastic_ReactorA$Conv)\nhist(Plastic_ReactorB$Conv)\n\n\n#part d):  A scatter plot of y = conversion vs. x = temperature, \n# using all the data and symbols denoting reactor\n\nlayout(1) # change back to one plot a page\nplot(Plastic$Temp, Plastic$Conv, col = Plastic$Reactor, pch = as.numeric(Plastic$Reactor))\ntitle(\"scatter plot temp vs. conv\")\nlegend('topleft', legend = c(\"reactor A\", \"reactor B\"), col = c(1,2), pch = c(1,2))\n\n\n#part e): A normal probability plot of the deviations about the individual reactor means\nmean.vec <- (Plastic$Reactor =='A') * mean(Plastic_ReactorA$Conv)  +  \n           (Plastic$Reactor =='B') * mean(Plastic_ReactorB$Conv)\ndeviations <- Plastic$Conv - mean.vec\nqqnorm(deviations)\nqqline(deviations)\n\nqqnorm(devA <- Plastic_ReactorA$Conv-mean(Plastic_ReactorA$Conv) );qqline(devA)\nqqnorm(devB <- Plastic_ReactorB$Conv-mean(Plastic_ReactorB$Conv) );qqline(devB)\n# Question 3: Compare the outputs and report any interesting findings. \n# This report should be very brief, just a few sentences.\n\n#1, From the histogram, compare with reactor A, the conversion rate of reactor B is more spread; \n   # and they tend to take big or small values\n#2, There is a strong linear relationship between conversion rate and temperature for reactor A\n    # this is not the case for reactor B, for the same temperature,\n     #there are types of different resutls.\n#3, when put the deviations from reactor A and reactor B together, some of the points are clearly\n   # deviate from the line and so the normality is not satisfied in this case.\n\n\n\n",
+    "created" : 1454550209473.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2358337623",
+    "id" : "EBD5017D",
+    "lastKnownWriteTime" : 1454875337,
+    "path" : "~/Stat/Teaching/stat424/code/project1/project1.R",
+    "project_path" : "project1/project1.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

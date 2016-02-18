@@ -1,0 +1,104 @@
+---
+title: "A brief Introduction to R"
+author: "Song Wang"
+date: "January 20, 2016"
+output: html_document
+---
+
+### 1. Download and install R and Rstudio
+Visit http://cran.us.r-project.org
+
+https://www.rstudio.com/products/rstudio/download/
+
+### 2. play with R 
+- arithmetic operation 
+```{r, echo= TRUE, eval=TRUE}
+1+2
+3*4
+3/6
+3>5
+```
+- use easy in-built functions 
+```{r}
+x <- c(12, 11, 16, 20)  # c standards for ?
+?c
+sum(x) 
+max(x)
+mean(x)
+median(x)
+sd(x)
+var(x)
+
+?mean
+```
+
+### 3. Get Data into R
+
+- use import Dataset button in the top right cornor of Rstudio (discouraged)
+ click the button, select the file you want to import.
+
+- use read.table command
+```{r}
+rm(list=ls())
+mtcars <- read.table(file = "mtcars.csv", sep=",", header = T)  
+# mtcars <- read.csv(file = "mtcars.csv")
+?read.csv
+?read.table
+str(mtcars)
+?mtcars
+mean(mtcars$mpg)
+```
+
+
+
+
+### 4. Visualize your data 
+```{r}
+# for numeric variable (1 or 2 variables)
+
+hist(mtcars$mpg)
+hist(mtcars$mpg, freq = FALSE) #density histogram
+
+plot(density(mtcars$mpg))
+plot(density(mtcars$disp))
+
+boxplot(mtcars$mpg, horizontal = T)
+stripchart(mtcars$mpg,method = 'jitter')
+
+
+# two numerical variables
+plot(mtcars$disp, mtcars$mpg, xlab ="displacement", ylab = "mile per gallon", main = "mpg vs. disp") # scatter plot
+#abline(lm( mtcars$mpg ~ mtcars$disp ), col="red")
+
+pairs(mtcars[,1:4]) # pairwise plot
+
+# For categorial data 
+counts = table(mtcars$cyl); barplot(counts)
+boxplot(mtcars$mpg ~ mtcars$cyl)
+boxplot(mtcars$hp ~ mtcars$cyl)
+```
+
+
+- Checking Normality 
+```{r}
+hist(mtcars$mpg)
+qqnorm(mtcars$mpg)
+qqline(mtcars$mpg)
+
+set.seed(123)
+x <- rnorm(100,1,2)
+hist(x)
+qqnorm(x)
+qqline(x)
+```
+
+
+### 5. How to save the plot and use in the report later
+- click on the plot (at bottom right corner usually) 
+- save the plot in .png or .pdf
+- copy the plot into the report (in the future project)
+
+  
+
+
+

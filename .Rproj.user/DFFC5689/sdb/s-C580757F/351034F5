@@ -1,0 +1,18 @@
+{
+    "contents" : "wear <- c(69,83,74,61,78,69,59,65,64,52,71,64,55,65,59,59,67,58,70,75,74,62,74,74)\npaint=list()\npaint$supplier <- c(rep(\"GS\",6),rep(\"FD\",6),rep(\"L\",6),rep(\"zK\",6))\npaint$site <- rep(1:6,4)\npaint$wear <- wear\npaint <- data.frame(paint) \n\n\n\n#graphical analysis\nplot(paint$wear[1:6],rep(1,6), col=\"red\",ylim=c(0.5,4.5), xlim= range(paint$wear))\npoints(paint$wear[7:12], rep(2,6),  col=\"blue\")\npoints(paint$wear[13:18], rep(3,6), col=\"green\")\npoints(paint$wear[19:24], rep(4,6))\n\nlayout(1)\nboxplot(wear~supplier,data =paint)\n# pontentially ,there is one outliter\nboxplot(wear~site, data = paint)\nplot(wear ~ site, data = paint)\n\n\npaint$site <- as.factor(paint$site) # change site from int type to factor type\naov1 <- aov(wear~supplier+site, data = paint)\nsummary(aov1)\naov1$effects\naov1$coefficients\n\nplot(aov1 ,which = 1)  # residuels vs fitted\n# we can that there is no trend of residuals, which all flutate around 0.\n# this can support the indepence assumption and the common variance assumpiton\nplot(aov1, which =2)   # norm Q-Q\n# no dlear outlier, normal assumption approx. satisfied.\nplot(aov1, which =3)  # use to see if there are outliers or not\n\nlayout(matrix(1:4,2, byrow = T))\nplot(aov1)\n##draw by yourself \nqqnorm(aov1$resid,col = paint$supplier)\nqqline(aov1$residuals)\n\n\n### extra questions:\n## use dplyr to calculate different group means\nrequire(dplyr)\nmean.wear.by.supplier = paint %>% \n  dplyr::group_by(supplier) %>%\n  dplyr::summarise(mean(wear))\nmean ( paint[which(paint$supplier==\"GS\"),]$wear)\nmean.wear.by.supplier \nmean.wear.by.site = paint %>% \n  dplyr::group_by(site) %>%\n  dplyr::summarise(mean(wear))\n\npaint %>% \n  dplyr:: group_by(site) %>% \n  dplyr::summarize(mean(wear))\n",
+    "created" : 1455171890420.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1902389473",
+    "id" : "351034F5",
+    "lastKnownWriteTime" : 1455213615,
+    "path" : "~/Stat/Teaching/stat424/code/disc4.R",
+    "project_path" : "disc4.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

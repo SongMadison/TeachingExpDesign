@@ -1,0 +1,132 @@
+Split-Plot Design in R
+========================================================
+
+The traditional split-plot design is, from a statistical analysis standpoint, similar to the two factor repeated measures desgin from last week.  The design consists of blocks (or whole plots) in which one factor (the whole plot factor) is applied to randomly.  Within each whole plot/block, it is split into smaller units and the levels of second factor are applied randomly to the smaller pieces of the whole plot.  The key is the experimental unit is different for each factor.
+
+## Oats Example
+
+In this example, entire fields are planted with one of three types of oats.  These are the whole plots, of which there are 18.  Each whole plot is split into four split-plots, each of which was randomly assigned one of four levels of nitrogen.  The yield (in bushels/acre) of oats was determined.  Of interest are differences in oat variety and nitrogen levels.
+
+```{r message=FALSE}
+# starting from the stat424 project
+setwd("./split-plot/")
+sp.oats <- read.csv("oats.csv")
+sp.oats <- within(sp.oats,nitroF <- factor(nitro))
+head(sp.oats)
+library(lattice)  # Can only list one package at a time
+library(car)
+library(agricolae)
+with(sp.oats,xyplot(yield~nitroF|variety))
+with(sp.oats,xyplot(yield~nitroF|variety,groups=replicate))
+with(sp.oats,xyplot(yield~nitroF|variety,groups=replicate,aspect="xy"))
+with(sp.oats,xyplot(yield~nitroF|variety,groups=replicate,aspect="xy",type="o"))
+with(sp.oats,xyplot(yield~nitroF|variety,groups=replicate,aspect="xy",type="a"))
+```
+
+If you ignore the experimental design, you get the following, incorrect, results.  Notice, the error df is higher, making it easier to detect differences that are not really there.
+
+```{r}
+res.bad <- lm(yield~variety*nitroF,data=sp.oats) 
+anova(res.bad)
+```
+
+
+The analysis in R follows the same pattern as last week.  The "variety" factor only has (18-1) total df to use when testing for differences in the variety.  Therefore, we need to specify the error term for variety correctly.  It should be noted that the form of the "Error(A:wholeplot)" can change depending on the data is laid out.  The key is to know the correct df so you know have the correct results.
+
+```{r error=FALSE,warning=FALSE}
+res.good <- aov(yield~replicate+variety*nitroF+Error(replicate:variety),data=sp.oats)
+summary(res.good)
+```
+
+In order to check assumptions, you need to not use the error term.  You can add the term without error, but the F tests are wrong.  Assumption checking is OK, however.
+
+```{r}
+res.good2 <- aov(yield~variety*nitroF+replicate:variety,data=sp.oats)
+summary(res.good2)
+plot(res.good2,1)
+plot(res.good2,2)
+plot(res.good2,5)
+boxCox(res.good2)
+
+res.good3 <- aov(yield~replicate+ variety*nitroF+replicate:variety,data=sp.oats)
+summary(res.good3)
+```
+
+Since the Box-Cox plot is good, no need to make any transformations.  You still need to identify which levels of nitrogen are different.
+
+```{r message=FALSE}
+with(sp.oats,HSD.test(yield,nitroF,DFerror=45,MSerror=117))
+library(gplots)
+plot.stuff <- with(sp.oats,HSD.test(yield,nitroF,DFerror=45,MSerror=117))
+names(plot.stuff)
+plot.stuff$means
+plot.stuff$groups
+barplot2(plot.stuff$means[,1]) 
+# Add some lables
+barplot2(plot.stuff$means[,1],names.arg=rownames(plot.stuff$means),xlab="Nitrogen",ylab="Yield per Acre")
+# Add some error bars
+mu.i <- plot.stuff$means[,1]
+se.i <- qt(1-.05/2,45)*plot.stuff$means[,2]
+bp <- barplot2(mu.i,names.arg=rownames(plot.stuff$means),xlab="Nitrogen",ylab="Yield per Acre",
+         plot.ci=TRUE,ci.l=mu.i-se.i,ci.u=mu.i+se.i)
+# Group them together
+text(bp,0,plot.stuff$groups[,3],cex=1,pos=3)
+# Is this correct?
+plot.stuff$groups
+order(plot.stuff$groups[,1])
+plot.stuff$groups[order(plot.stuff$groups[,1]),3]
+# This is better
+bp <- barplot2(mu.i,names.arg=rownames(plot.stuff$means),xlab="Nitrogen",ylab="Yield per Acre",
+         plot.ci=TRUE,ci.l=mu.i-se.i,ci.u=mu.i+se.i)
+text(bp,0,plot.stuff$groups[order(plot.stuff$groups[,1]),3],cex=1,pos=3)
+# Sometimes it is easier to do it by hand
+bp <- barplot2(mu.i,names.arg=rownames(plot.stuff$means),xlab="Nitrogen",ylab="Yield per Acre",
+         plot.ci=TRUE,ci.l=mu.i-se.i,ci.u=mu.i+se.i)
+text(bp,0,c("A","B","C","C"),cex=1,pos=3)
+```
+
+## Split-Split-Split Plot Design
+
+In this experiment you wish to measure the effects of three factors on the amount of glycogen in the liver.  In your experiment, there are 6 rats (whole plots).
+
+To each rat, one of three food diets was randomly assigned (T1, T2, and T3).
+
+From each rat, the liver was removed and split into four segments.  Each segment was prepared using one of two different chemicals (P1 and P2).
+
+Finally, each piece of liver had the glycogen level measured using two different analytical techniques (A and B).
+
+The experimental unit for diet is rat.  The experimental unit for liver preperation chemical is strip of liver.  The experimental unit for analytical technique is piece of liver.  All there are different.
+
+
+
+
+```{r}
+spp.rat <- read.csv("split_split_rat.csv")
+spp.rat
+with(spp.rat,xyplot(glycogen~factor(method:prep)|food,groups=rat,aspect="xy"))
+```
+
+This is a nutty design, but it happens.  Treatment, prep, and method all have different denominator MS for their f-test.
+
+What if you did it wrong?
+
+```{r}
+fact.bad <- lm(glycogen~food*prep*method,data=spp.rat)
+anova(fact.bad)
+```
+
+First, lets pretend that the method factor is ignored.  That makes this a split-plot design.
+
+```{r error=FALSE}
+sp.res <- aov(glycogen~food*prep+Error(rat/food),data=spp.rat)
+summary(sp.res)
+```
+
+Now add method as a second split, so now it is a split-split-plot design.
+
+```{r error=FALSE}
+sp.res <- aov(glycogen~food*prep*method+Error(rat/food:prep),data=spp.rat)
+summary(sp.res)
+```
+
+

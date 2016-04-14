@@ -1,0 +1,106 @@
+\documentclass[11pt]{article}
+
+\usepackage{alltt, graphicx}
+\usepackage[hmargin={.8in, .8in}, vmargin={.8in, 0.5in}]{geometry}
+\usepackage{epsfig}
+\usepackage{fancyheadings}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\lhead{STAT 572} \chead{DISCUSSION 1} \rhead{Spring 2016}
+
+\begin{document}
+\pagestyle{fancy}
+
+\begin{flushleft}
+{\Large\bf Brief Introduction to R}
+\end{flushleft}
+
+\begin{enumerate}
+
+\item R as a calculator:
+
+\begin{center}{$Y_i=\beta_0+\beta_1x_i+e_i$}
+\noindent where $e_i$ are i.i.d from $N(0,\sigma^2_e)$.
+\end{center}
+\begin{enumerate}
+
+\item model assumptions\\
+(1) The data follow a straight line\\
+(2) $e_i$ are independent\\
+(3)Errors have constant variance\\
+(4) Errors follow a normal distribution
+
+\item 
+$\hat{\beta_1}=\frac{\sum(x_i-\bar{x})(y_i-\bar{y})}{\sum(x_i-\bar{x})^2}$, $\hat{\beta_0}=\bar{y}-\hat{\beta_1}\bar{x}$\\
+$s_e^2=MSError=\sum(y_i-\hat{y_i})^2/(n-2)$\\
+$se(\hat{\beta_1})=\frac{s_e}{\sqrt{\sum(x_i-\bar{x})^2}}$, $se(\hat{\beta_0})=s_e\sqrt{\frac{1}{n}+\frac{\bar{x}^2}{\sum(x_i-\bar{x})^2}}$\\
+$se(\hat{Y}_{est})=s_e\sqrt{\frac{1}{n}+\frac{(x_*-\bar{x})^2}{\sum(x_i-\bar{x})^2}}$, $se(\hat{Y}_{pred)=}s_e\sqrt{1+\frac{1}{n}+\frac{(x_*-\bar{x})^2}{\sum(x_i-\bar{x})^2}}$
+\end{enumerate}
+
+\item Assessing Assumptions
+\begin{enumerate}
+
+\item Types of residuals\\
+(1) raw residuals $r_i=y_i-\hat{y_i}$, where $\sum r_i=0$, and $SSError=\sum r_i^2$\\
+(2) internally studentized residuals $rint_i=\frac{y_i-\hat{y_i}}{s_e\sqrt{1-h_i}}$, where $h_i=\frac{1}{n}+\frac{(x_i-\bar{x})^2}{\sum(x_i-\bar{x})^2}$\\
+(3) externally studentized residuals $rext_i=\frac{y_i-\hat{y_i}}{s_{e(i)}\sqrt{1-h_i}}$
+
+\item Outlier Test\\
+(1) Delete the questionable observation(denoted by $x_*$) and refit the model using the reduced data set.\\
+(2) Obtain $\hat{Y}_{pred}$ and $se(\hat{Y}_{pred})$\\
+(3) Do the test: $H_0: Y_{observed}=Y_{predicted}$ vs. $H_A: Y_{observed}\neq Y_{predicted}$\\
+\begin{center}
+$T=\frac{Y_{obs}-\hat{Y}_{pred}}{se(\hat{Y}_{pred})}$
+\end{center}
+(4) Compute two-sided p-value based on T-distribution with df=(n-3).
+
+\item Influential Observations\\
+(1) leverage $h_i=\frac{1}{n}+\frac{(x_i-\bar{x})^2}{\sum(x_i-\bar{x})^2}$, if $h_i > 4/n$, we consider it as influential.\\
+(2) Cook's distance $D_i=\frac{\sum_{j=1}^n (\hat{y_j}-\hat{y_{j(i)}})^2}{2s_e^2}$, if $D_i >1$, we consider it as influential.
+\end{enumerate}
+
+
+\end{enumerate}
+
+\newpage
+\begin{flushleft}
+{\Large\bf Practice Problems}
+\end{flushleft}
+
+\begin{enumerate}
+
+\item
+Consider the following (artificial) data set.\\
+\begin{tabular}{llllllll}
+    x: & 1 & 5 & 6 & 7 & 8 & 9 & 10\\
+    y: & 1 & 11.7 & 11.8 & 9.7 & 8.5 & 8.6 & 7.3\\
+\end{tabular}\\
+(1) Fit the data using simple linear regression. \\
+(2) Is it a good fit? Remove any possible outlier you think and then refit the data.\\
+(3) What can you conclude by comparing the two fits?\\
+(4) Based on (1), which observations can be considered as influential points?
+
+\item
+Consider the following (artificial) data set.\\
+\begin{tabular}{llllllll}
+    x: & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+    y: & 10.9 & 6.1 & 2.8 & 1.9 & 3.1 & 6.0 & 11.2\\
+\end{tabular}
+
+\begin{enumerate}
+\item[(a)] Plot y vs. x.
+\item[(b)] Fit the data using simple linear regression. How good
+is your fit?
+\item[(c)] Plot the residuals vs. y
+\item[(d)] Plot the residuals vs. x.
+\item[(e)] Plot the residuals vs. $\hat{y}$.
+\item[(f)] Compare the plots from (c), (d) and (e). What do you
+conclude? Which plot provides a better indication of the lack of
+fit?
+\end{enumerate}
+\end{enumerate}
+
+
+
+\end{document}

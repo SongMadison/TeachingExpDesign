@@ -5,9 +5,9 @@ Song Wang’s Homepage
 
 [](Resume_SongWang.pdf)
 
- 
+![alt text](scene.png) 
 
 #### I am  TA for stat424 -Experiemntal Designs- 2016 Spring, working with Donald Porter. I will post my handouts and code here.   [TA: Song Wang's page for stat424 2016 Spring](Stat424-s16.html)
 
 
-![alt text](scene.png)
+

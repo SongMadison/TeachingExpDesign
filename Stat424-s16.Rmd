@@ -1,7 +1,6 @@
 ---
 title: "Stat424 2016 Spring"
 author: "Song Wang"
-date: "updated February 11, 2016"
 output: html_document
 ---
 
@@ -37,5 +36,36 @@ Discussion 4
 Discussion 5
  
 - [disc5 handout](disc5.pdf)
-- [code for disc5](disc5.R): more on *aov* and some visualization
+- [code for disc5](disc5.html): more on *aov* and some visualization
 - [Some notes on RCBD](RCBD.pdf) some use materials on randomized block desgin.
+
+Discussion 6
+ 
+- No handout this time, cover problems from exam and Question 4 page 224.
+- [code for disc6](disc6.html): use R to calculate main effects, interaction effects. better use hand.
+- [exam solution](Exam 1 - Review - Solutions.docx) Solutions for exam 1.
+
+
+Discussion 7
+ 
+- No handout this time, cover problems from exam and homework questions.
+
+Discussion 8 
+
+- [disc8 handout](disc8.pdf)
+
+Discussion 9 
+
+- [disc9 handout](disc9.pdf)
+
+Discussion 10 
+
+- [disc10 handout](disc10.pdf): review on fractional factorial design and data boxcox transformation
+- [R code for data transformation](disc10.html)
+
+
+Discussion 11 
+
+- [disc11 handout](disc11.pdf): example on hand calcualation aboutsplit-plot design.
+- [R code for split-plot design and hierarchical design](disc11_split-plot.html)
+- [Some theory split-plot design](sptheory.pdf)

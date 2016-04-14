@@ -1,0 +1,99 @@
+##This script is to instruct people to analyze data from split-plot design and hierachical design
+
+First create a data set about wheat and herbicide, learning the effects of wheat variety(A0,A1),and rates of a herbicide(B0,B1,B2,B3)
+
+design as follows: 3 blocks(replicates), in each block there are two plots (whole-plot) to grow a varietey of wheat; Besides, the whole-plot is divided into four sub-plots to apply different rates of a herbicide.
+```{r}
+rm(list=ls())  # clean up memory
+Dat <- data.frame(list(
+  observation = 1:24,
+  replicate = rep(c("I","II","III"),each =8),
+  A = rep(rep(c("A0","A1"),each = 4),3),
+  B = rep(c("B0","B1","B2","B3"),times = 6 ),
+  yield = c(13.8,15.5,21.0,18.9,19.3,22.2,25.3,25.9,
+            13.5,15.0,22.7,18.3,18.0,24.2,24.8,26.7,
+            13.2,15.2,22.3,19.6,20.5,25.4,28.4,27.6)
+  ))
+```
+
+
+Without knowledge of the design, the analysis below is not accurate.
+```{r}
+aov.bad <- aov(yield~replicate+ A*B, data =Dat)
+summary(aov.bad)
+```
+```{r}
+#Library
+library(agricolae)
+## if we think replicates, no blocking effect
+aov.good<- aov(yield~ A*B+Error(replicate:A), data =Dat)
+summary(aov.good)
+
+## if we think we need consider block effect. put replicate in the model
+aov.good2<- aov(yield~ replicate + A*B + Error(replicate:A), data =Dat)
+summary(aov.good2)
+```
+
+Do some diagnosis to check the assumptions, mainly on the residuals
+
+
+```{r}
+#diagnosis 
+aov.good3<- aov(yield~ replicate + A+replicate:A +  B  + A:B, data =Dat)
+summary(aov.good3)
+layout(matrix(1:4,2,byrow = T))
+plot(aov.good3, 1)
+plot(aov.good3, 2)
+plot(aov.good3, 5)
+library(car)
+boxCox(aov.good3)
+layout(1)
+```
+
+
+## Part 2: R code to analyze hierarchical design. The table is from table 9.8 on page 350.
+
+The hierarchical model is :
+   $Y_{ijk} = \mu +\alpha_i + \beta_{(i)j}+\epsilon_{ijk}$
+   
+   where:
+$\mu$: constant; overall mean
+
+$\alpha_i$: constant for ith treatment group; deviation from mean of i
+
+$\beta_ij$: a random effect due to the ith group nested witin the jth experimental unit
+
+$\epsilon_{ijk}$: andom deviation associated with each observation
+
+```{r fig.width=7, fig.height=4 ,echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG("./nested.png")
+ grid.raster(img)
+```
+
+
+```{r, out.width = 400, fig.retina = NULL}
+knitr::include_graphics("nested.png")
+```
+
+```{r}
+pigment <- data.frame(list(
+  batch = rep(1:15,each=4),
+  sample = rep(1:30,each =2),
+  test = 1:60,
+  y = c( 40,39,30,30,26,28,25,26,29,28,14,15,30,31,24,24, 
+         19,20,17,17,33,32,26,24,23,24,32,33,34,34,29,29,
+         27,27,31,31,13,16,27,24,25,23,25,27,29,29,31,32,
+         19,20,29,30,23,23,25,25,39,37,26,28)
+  ))
+pigment$batch <- as.factor(pigment$batch)
+pigment$sample <- as.factor(pigment$sample)
+pigment$test <- as.factor(pigment$test)
+aov.pigment <- aov(y~batch+sample+test,data=pigment)
+summary(aov.pigment)
+
+#another method:
+anova(lm(y~batch/sample,data=pigment))  #test part is just random noise
+
+```

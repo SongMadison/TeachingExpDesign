@@ -1,0 +1,43 @@
+---
+title: "disc6 handout"
+author: "Song Wang"
+date: "March 2, 2016"
+output: html_document
+---
+
+```{r}
+rm(list= ls())
+dat1 <- data.frame(list(
+  temp = rep(c(-1,1),4),
+  concen = rep(c(-1,-1,1,1),2),
+  stir = rep(c(-1,1),each =4),
+  yield = c(54,57,69,70,55,54,80,81)
+))
+
+lm1 <- lm(yield~.,data= dat1)
+summary(lm1)
+anova(lm1)
+
+lm2 <- lm(yield~temp+ concen+ stir + temp:concen+ temp:stir + concen:stir,data= dat1)
+summary(lm2)
+anova(lm2)
+
+lm3 <- lm(yield ~ temp *concen * stir, data =dat1)
+summary(lm3)
+anova(lm3)
+#using the knowledge that eror is ==1, sd =(1/8+1/8)^(1/2) = 1/2
+
+# a) conlusions 
+# main effects: concentrain effect are significant
+
+# the population std are given, =1
+# based on saturated model, using sd for each effect  = 1 *0.5, effects >1 should be significant
+# so concen, stir, concen:stir are significant.
+# they all have positive effects
+
+# b) perform experiments with comnibations of high concentraion, high stirring rate, 
+# and possibly temperature.
+
+
+
+```

@@ -69,3 +69,8 @@ Discussion 11
 - [disc11 handout](disc11.pdf): example on hand calcualation aboutsplit-plot design.
 - [R code for split-plot design and hierarchical design](disc11_split-plot.html)
 - [Some theory split-plot design](sptheory.pdf)
+
+
+Discussion 12 
+
+- [disc12 handout](disc12.pdf): example on multicollinearity and centerization in regression.

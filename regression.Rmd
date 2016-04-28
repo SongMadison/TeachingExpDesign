@@ -1,0 +1,33 @@
+---
+title: "Regression - Estimation, Testing and Diagnosis"
+author: "SongWang"
+date: "04/27/2016"
+output: html_document
+---
+
+
+The following data (*bloodpress.txt*) on 20 individuals with high blood pressure
+\begin{enumerate}
+\item blood pressure (y = BP, in mm Hg)
+\item age (x1 = Age, in years)
+\item weight (x2 = Weight, in kg)
+\item body surface area (x3 = BSA, in sq m)
+\item duration of hypertension (x4 = Dur, in years)
+\item basal pulse (x5 = Pulse, in beats per minute)
+\item stress index (x6 = Stress)
+\end{enumerate}
+
+The researchers were interested in determining if a relationship exists between blood pressure and age, weight, body surface area, duration, pulse rate and/or stress level.
+
+```{r}
+bloodpress <- read.table()
+
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
